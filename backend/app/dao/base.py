@@ -49,8 +49,6 @@ class BaseDAO:
 
     @classmethod
     async def add_bulk(cls, *data):
-        # Для загрузки массива данных [{"id": 1}, {"id": 2}]
-        # мы должны обрабатывать его через позиционные аргументы *args.
         try:
             query = insert(cls.model).values(*data).returning(cls.model.id)
             async with async_session_maker() as session:
