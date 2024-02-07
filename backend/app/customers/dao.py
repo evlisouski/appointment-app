@@ -4,7 +4,7 @@ from datetime import date
 from sqlalchemy import and_, func, insert, or_, select
 
 
-from app.customers.models import Customers
+from app.customers.models import Customer
 from app.dao.base import BaseDAO
 from app.database import async_session_maker
 
@@ -12,7 +12,7 @@ from app.logger import logger
 
 
 class CustomerDAO(BaseDAO):
-    model = Customers
+    model = Customer
 
     @classmethod
     async def get_customers(cls, customer_id: int):
@@ -20,9 +20,9 @@ class CustomerDAO(BaseDAO):
         async with async_session_maker() as session:
 
             query = (
-                select(Customers.name)
-                .select_from(Customers)
-                .where(Customers.id == customer_id)
+                select(Customer.name)
+                .select_from(Customer)
+                .where(Customer.id == customer_id)
             )
 
             result = await session.execute(query)
@@ -50,7 +50,7 @@ class CustomerDAO(BaseDAO):
         '''
         async with async_session_maker() as session:
             stmt = (
-                insert(Customers)
+                insert(Customer)
                 .values(name=name,
                         birthday=birthday,
                         registration_date=registration_date,
@@ -59,8 +59,8 @@ class CustomerDAO(BaseDAO):
                         location=location,
                         image_id=image_id,
                         score=score)
-                .returning(Customers.id,
-                           Customers.name)
+                .returning(Customer.id,
+                           Customer.name)
             )
             result = await session.execute(stmt)
             await session.commit()

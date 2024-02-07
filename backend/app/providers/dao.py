@@ -4,7 +4,7 @@ from datetime import date
 from sqlalchemy import and_, func, insert, or_, select
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.providers.models import Providers, Tags, ProvidersTags
+from app.providers.models import Provider, Tag, ProviderTag
 from app.dao.base import BaseDAO
 from app.database import async_session_maker
 
@@ -12,7 +12,7 @@ from app.logger import logger
 
 
 class ProviderDAO(BaseDAO):
-    model = Providers
+    model = Provider
 
     @classmethod
     async def get_providers(cls):
@@ -27,15 +27,15 @@ class ProviderDAO(BaseDAO):
         '''
         async with async_session_maker() as session:
             stmt = (
-                select(Providers.id, Providers.name, Providers.foundation_date,
-                       Providers.registration_date, Providers.rating,
-                       Providers.verified, Providers.location,
-                       Providers.image_id,
-                       func.aggregate_strings(Tags.name, ', ').label('tags'))
-                .select_from(Providers)
-                .join(ProvidersTags, Providers.id == ProvidersTags.provider_id)
-                .join(Tags, Tags.id == ProvidersTags.tag_id)
-                .group_by(Providers.id)
+                select(Provider.id, Provider.name, Provider.foundation_date,
+                       Provider.registration_date, Provider.rating,
+                       Provider.verified, Provider.location,
+                       Provider.image_id,
+                       func.aggregate_strings(Tag.name, ', ').label('tags'))
+                .select_from(Provider)
+                .join(ProviderTag, Provider.id == ProviderTag.provider_id)
+                .join(Tag, Tag.id == ProviderTag.tag_id)
+                .group_by(Provider.id)
             )
             result = await session.execute(stmt)
             return result.mappings().all()
@@ -58,22 +58,22 @@ class ProviderDAO(BaseDAO):
         async with async_session_maker() as session:
             tags = (
                 select(
-                    func.aggregate_strings(Tags.name, ', ')
+                    func.aggregate_strings(Tag.name, ', ').label('tags')
                 )
-                .select_from(Providers)
-                .join(ProvidersTags, Providers.id == ProvidersTags.provider_id)
-                .join(Tags, Tags.id == ProvidersTags.tag_id)
-                .where(Providers.id == provider_id)
+                .select_from(Provider)
+                .join(ProviderTag, Provider.id == ProviderTag.provider_id)
+                .join(Tag, Tag.id == ProviderTag.tag_id)
+                .where(Provider.id == provider_id)
                 .cte(name="tags")
             )
 
             query = (
-                select(Providers.id, Providers.name, Providers.foundation_date,
-                       Providers.registration_date, Providers.rating,
-                       Providers.verified, Providers.location,
-                       Providers.image_id, tags)
-                .select_from(Providers, tags)
-                .where(Providers.id == provider_id)
+                select(Provider.id, Provider.name, Provider.foundation_date,
+                       Provider.registration_date, Provider.rating,
+                       Provider.verified, Provider.location,
+                       Provider.image_id, tags)
+                .select_from(Provider, tags)
+                .where(Provider.id == provider_id)
             )
 
             result = await session.execute(query)

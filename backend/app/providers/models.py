@@ -4,20 +4,20 @@ from sqlalchemy.orm import relationship, Mapped, registry, configure_mappers, ma
 from app.database import Base
 
 
-class Tags(Base):
+class Tag(Base):
     __tablename__ = "tags"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(length=100), nullable=False)
 
     providers = relationship(
-        "Providers", secondary="providers_tags", back_populates="tags")
+        "Provider", secondary="providers_tags", back_populates="tags")
 
     def __str__(self):
         return f"Tag {self.name}"
 
 
-class Providers(Base):
+class Provider(Base):
     __tablename__ = "providers"
 
     id = Column(Integer, primary_key=True)
@@ -29,14 +29,14 @@ class Providers(Base):
     location = Column(String, nullable=False)
     image_id = Column(Integer)
 
-    tags = relationship("Tags", secondary="providers_tags",
+    tags = relationship("Tag", secondary="providers_tags",
                         back_populates="providers")
 
     def __str__(self):
         return f"Provider {self.name}"
 
 
-class ProvidersTags(Base):
+class ProviderTag(Base):
     __tablename__ = "providers_tags"
 
     tag_id = Column(Integer, ForeignKey("tags.id"), primary_key=True)

@@ -9,8 +9,8 @@ from alembic import context
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 from app.config import settings
-from app.customers.models import Customers
-from app.providers.models import Providers, Tags
+from app.customers.models import Customer
+from app.providers.models import Provider, Tag
 
 from app.database import Base
 # this is the Alembic Config object, which provides

@@ -15,5 +15,5 @@ async def get_providers() -> list[SProvider]:
     return await ProviderDAO.get_providers()
 
 @router.get("/{id}")
-async def get_provider_by_id(id: int):
+async def get_provider_by_id(id: int) -> SProvider:
     return await ProviderDAO.get_provider_by_id(provider_id=id)
