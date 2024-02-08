@@ -15,8 +15,24 @@ class CustomerDAO(BaseDAO):
     model = Customer
 
     @classmethod
-    async def get_customers(cls, customer_id: int):
+    async def get_customers(cls):
         """SELECT * FROM customers"""
+        async with async_session_maker() as session:
+
+            query = (
+                select('*')
+                .select_from(Customer)
+            )
+
+            result = await session.execute(query)
+            return result.mappings().all()
+
+    @classmethod
+    async def get_customer_by_id(cls, customer_id: int):
+        """
+        SELECT * FROM customers
+        WHERE customers.id = ?
+        """
         async with async_session_maker() as session:
 
             query = (
@@ -26,7 +42,7 @@ class CustomerDAO(BaseDAO):
             )
 
             result = await session.execute(query)
-            return result
+            return result.mappings().one_or_none()
 
     @classmethod
     async def add_customer(
@@ -64,4 +80,4 @@ class CustomerDAO(BaseDAO):
             )
             result = await session.execute(stmt)
             await session.commit()
-            return result.all()
+            return result.mappings().one_or_none()
