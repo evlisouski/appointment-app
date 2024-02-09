@@ -1,0 +1,92 @@
+[
+    {
+        "id": 10,
+        "name": "FoxCorp",
+        "foundation_date": "2020-01-01",
+        "registration_date": "2023-01-02",
+        "rating": 100,
+        "verified": true,
+        "location": "Minsk",
+        "image_id": 11
+    },
+    {
+        "id": 11,
+        "name": "TechGlobe",
+        "foundation_date": "2018-05-15",
+        "registration_date": "2022-11-20",
+        "rating": 85,
+        "verified": false,
+        "location": "Grodno",
+        "image_id": 12
+    },
+    {
+        "id": 12,
+        "name": "SunriseTech",
+        "foundation_date": "2019-09-10",
+        "registration_date": "2023-03-05",
+        "rating": 120,
+        "verified": true,
+        "location": "Brest",
+        "image_id": 13
+    },
+    {
+        "id": 13,
+        "name": "PixelCraft",
+        "foundation_date": "2017-03-28",
+        "registration_date": "2021-08-12",
+        "rating": 70,
+        "verified": false,
+        "location": "Vitebsk",
+        "image_id": 14
+    },
+    {
+        "id": 14,
+        "name": "QuantumSolutions",
+        "foundation_date": "2015-11-05",
+        "registration_date": "2020-04-30",
+        "rating": 130,
+        "verified": true,
+        "location": "Hrodna",
+        "image_id": 15
+    },
+    {
+        "id": 15,
+        "name": "InfiniteTech",
+        "foundation_date": "2016-07-22",
+        "registration_date": "2022-02-18",
+        "rating": 90,
+        "verified": false,
+        "location": "Mogilev",
+        "image_id": 16
+    },
+    {
+        "id": 16,
+        "name": "CyberWave",
+        "foundation_date": "2014-12-10",
+        "registration_date": "2019-06-25",
+        "rating": 110,
+        "verified": true,
+        "location": "Borisov",
+        "image_id": 17
+    },
+    {
+        "id": 17,
+        "name": "DataSphere",
+        "foundation_date": "2013-08-18",
+        "registration_date": "2018-01-05",
+        "rating": 75,
+        "verified": false,
+        "location": "Pinsk",
+        "image_id": 18
+    },
+    {
+        "id": 18,
+        "name": "QuantumLeap",
+        "foundation_date": "2012-10-05",
+        "registration_date": "2017-05-20",
+        "rating": 95,
+        "verified": true,
+        "location": "Molodechno",
+        "image_id": 19
+    }
+]

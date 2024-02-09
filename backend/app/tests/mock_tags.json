@@ -1,0 +1,81 @@
+[
+    {
+        "id": 1,
+        "name": "Medicine"
+    },
+    {
+        "id": 2,
+        "name": "Engineering"
+    },
+    {
+        "id": 3,
+        "name": "Education"
+    },
+    {
+        "id": 4,
+        "name": "Art"
+    },
+    {
+        "id": 5,
+        "name": "Science"
+    },
+    {
+        "id": 6,
+        "name": "Technology"
+    },
+    {
+        "id": 7,
+        "name": "Business"
+    },
+    {
+        "id": 8,
+        "name": "Music"
+    },
+    {
+        "id": 9,
+        "name": "Literature"
+    }, {
+        "id": 10,
+        "name": "History"
+    },
+    {
+        "id": 11,
+        "name": "Psychology"
+    },
+    {
+        "id": 12,
+        "name": "Environment"
+    },
+    {
+        "id": 13,
+        "name": "Mathematics"
+    },
+    {
+        "id": 14,
+        "name": "Philosophy"
+    },
+    {
+        "id": 15,
+        "name": "Sports"
+    },
+    {
+        "id": 16,
+        "name": "Fashion"
+    },
+    {
+        "id": 17,
+        "name": "Culinary"
+    },
+    {
+        "id": 18,
+        "name": "Architecture"
+    },
+    {
+        "id": 19,
+        "name": "Film"
+    },
+    {
+        "id": 20,
+        "name": "Astronomy"
+    }
+]
