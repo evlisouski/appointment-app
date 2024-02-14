@@ -1,4 +1,4 @@
-from sqlalchemy import JSON, Boolean, Column, Date, Integer, String, SmallInteger
+from sqlalchemy import JSON, Boolean, Column, Date, Integer, String, SmallInteger, true
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -7,7 +7,7 @@ from app.database import Base
 class Customer(Base):
     __tablename__ = "customers"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(length=256), nullable=False)
     birthday = Column(Date, nullable=True)
     registration_date = Column(Date, nullable=False)

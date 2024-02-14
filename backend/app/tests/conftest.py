@@ -9,6 +9,10 @@ from app.database import Base, async_session_maker, engine
 from app.customers.models import Customer
 from app.providers.models import Provider, ProviderTag, Tag
 
+from fastapi.testclient import TestClient
+from httpx import AsyncClient
+from app.main import app as fastapi_app
+
 @pytest.fixture(scope="session", autouse=True)
 async def prepare_database():
     assert settings.MODE == "TEST"
@@ -55,3 +59,12 @@ def event_loop(request):
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
+    
+    
+@pytest.fixture(scope="function")
+async def ac():
+    "Асинхронный клиент для тестирования эндпоинтов"
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        yield ac
+
+

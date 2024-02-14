@@ -33,9 +33,9 @@ class ProviderDAO(BaseDAO):
                        Provider.verified, Provider.location,
                        Provider.image_id,
                        func.aggregate_strings(Tag.name, ', ').label('tags'))
-                .select_from(Provider)
-                .join(ProviderTag, Provider.id == ProviderTag.provider_id)
-                .join(Tag, Tag.id == ProviderTag.tag_id)
+                .select_from(Provider)                
+                .join(ProviderTag, Provider.id == ProviderTag.provider_id, isouter=True)
+                .join(Tag, Tag.id == ProviderTag.tag_id, isouter=True)
                 .group_by(Provider.id)
             )
             result = await session.execute(stmt)

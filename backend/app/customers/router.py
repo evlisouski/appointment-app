@@ -9,15 +9,13 @@ router = APIRouter(
     tags=["Customers"],
 )
 
-
-@router.get("/{id}")
-async def get_customer_by_id(id: int) -> SCustomer:
-    return await CustomerDAO.get_customer_by_id(customer_id=id)
-
-
 @router.get("/all")
 async def get_customers() -> list[SCustomer]:
-    return await CustomerDAO.get_customers()
+    return await CustomerDAO.find_all()
+
+@router.get("/customer{id}")
+async def get_customer_by_id(id: int) -> SCustomer | None:
+    return await CustomerDAO.find_one_or_none(id=id)
 
 
 @router.post("/add")

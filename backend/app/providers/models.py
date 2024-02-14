@@ -1,4 +1,4 @@
-from sqlalchemy import JSON, Boolean, Column, Date, ForeignKey, Integer, String, SmallInteger, Table
+from sqlalchemy import JSON, Boolean, Column, Date, ForeignKey, Integer, String, SmallInteger, Table, true
 from sqlalchemy.orm import relationship, Mapped, registry, configure_mappers, mapped_column
 
 from app.database import Base
@@ -20,7 +20,7 @@ class Tag(Base):
 class Provider(Base):
     __tablename__ = "providers"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(length=256), nullable=False)
     foundation_date = Column(Date, nullable=True)
     registration_date = Column(Date, nullable=False)

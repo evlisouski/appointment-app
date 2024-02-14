@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import Any, Optional, Union
 
 from pydantic import BaseModel
 
@@ -13,7 +13,7 @@ class SProvider(BaseModel):
     verified: bool
     location: str
     image_id: int
-    tags: str
+    tags: list | Any
 
     class Config:
         from_attributes = True
