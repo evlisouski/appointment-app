@@ -12,6 +12,7 @@ from app.config import settings
 from app.customers.models import Customer
 from app.providers.models import Provider, Tag
 from app.users.models import User
+from app.appointments.models import Appointment
 
 from app.database import Base
 # this is the Alembic Config object, which provides
