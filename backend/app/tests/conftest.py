@@ -7,6 +7,7 @@ from app.config import settings
 from app.database import Base, async_session_maker, engine
 
 from app.customers.models import Customer
+from app.users.models import User
 from app.providers.models import Provider, ProviderTag, Tag
 
 from fastapi.testclient import TestClient
@@ -25,6 +26,7 @@ async def prepare_database():
         with open(f"app/tests/mock_{model}.json", "r") as file:
             return json.load(file)
 
+    users = open_mock_json("users")
     customers = open_mock_json("customers")
     providers = open_mock_json("providers")
     tags = open_mock_json("tags")
@@ -39,11 +41,13 @@ async def prepare_database():
         provider["registration_date"] = datetime.strptime(provider["registration_date"], "%Y-%m-%d")
 
     async with async_session_maker() as session:
+        add_users = insert(User).values(users)
         add_customers = insert(Customer).values(customers)
         add_providers = insert(Provider).values(providers)
         add_tags = insert(Tag).values(tags)
         add_providers_tags = insert(ProviderTag).values(providers_tags)
 
+        await session.execute(add_users)
         await session.execute(add_customers)
         await session.execute(add_providers)
         await session.execute(add_tags)
@@ -59,12 +63,10 @@ def event_loop(request):
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
-    
-    
+
+
 @pytest.fixture(scope="function")
 async def ac():
     "Асинхронный клиент для тестирования эндпоинтов"
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
         yield ac
-
-

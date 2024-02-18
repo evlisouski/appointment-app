@@ -1,11 +1,17 @@
 from datetime import date
 from typing import Optional
 from unittest.mock import Base
+from fastapi import Depends
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+
+from app.users.models import User
+from app.users.dependencies import get_current_user
 
 
 class SCustomer(BaseModel):
+    model_config = ConfigDict(extra='ignore', from_attributes=True)
+
     id: int
     name: str
     birthday: date
@@ -16,11 +22,10 @@ class SCustomer(BaseModel):
     image_id: int
     score: int
 
-    class Config:
-        from_attributes = True
-
 
 class SNewCustomer(BaseModel):
+    model_config = ConfigDict(extra='ignore', from_attributes=True)
+
     name: str
     birthday: date
     registration_date: date
@@ -29,9 +34,6 @@ class SNewCustomer(BaseModel):
     location: str
     image_id: int
     score: int
-
-    class Config:
-        from_attributes = True
 
 
 class SNewCustomerReturn(BaseModel):

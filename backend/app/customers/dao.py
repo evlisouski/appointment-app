@@ -17,6 +17,7 @@ class CustomerDAO(BaseDAO):
     @classmethod
     async def add_customer(
         cls,
+        id: id,
         name: str,
         birthday: date,
         registration_date: date,
@@ -37,7 +38,8 @@ class CustomerDAO(BaseDAO):
         async with async_session_maker() as session:
             stmt = (
                 insert(Customer)
-                .values(name=name,
+                .values(id=id,
+                        name=name,
                         birthday=birthday,
                         registration_date=registration_date,
                         rating=rating,

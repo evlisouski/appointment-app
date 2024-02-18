@@ -21,6 +21,7 @@ class Provider(Base):
     __tablename__ = "providers"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = mapped_column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     name = Column(String(length=256), nullable=False)
     foundation_date = Column(Date, nullable=True)
     registration_date = Column(Date, nullable=False)
@@ -31,6 +32,7 @@ class Provider(Base):
 
     tags = relationship("Tag", secondary="providers_tags",
                         back_populates="providers")
+    users = relationship("User", back_populates="providers")
 
     def __str__(self):
         return f"Provider {self.name}"

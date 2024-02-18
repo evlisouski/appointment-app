@@ -33,7 +33,7 @@ class ProviderDAO(BaseDAO):
                        Provider.verified, Provider.location,
                        Provider.image_id,
                        func.aggregate_strings(Tag.name, ', ').label('tags'))
-                .select_from(Provider)                
+                .select_from(Provider)
                 .join(ProviderTag, Provider.id == ProviderTag.provider_id, isouter=True)
                 .join(Tag, Tag.id == ProviderTag.tag_id, isouter=True)
                 .group_by(Provider.id)
@@ -83,6 +83,7 @@ class ProviderDAO(BaseDAO):
 
     @classmethod
     async def add_provider(cls,
+                           user_id,
                            name,
                            foundation_date,
                            registration_date,
@@ -111,9 +112,11 @@ class ProviderDAO(BaseDAO):
         END $$;
         '''
         async with async_session_maker() as session:
+
             stmt_provider_id = (
                 insert(Provider)
                 .values(
+                    user_id=user_id,
                     name=name,
                     foundation_date=foundation_date,
                     registration_date=registration_date,
@@ -127,16 +130,35 @@ class ProviderDAO(BaseDAO):
             provider_id = await session.execute(stmt_provider_id)
             provider_id = int((provider_id.mappings().one_or_none()).id)
 
-            stmt_tag_ids = (
-                insert(Tag)
-                .values(tags)
-                .returning(Tag.id)
-            )
+            tags_new = [{"name": i, "id": None} for i in tags]
+            tags_exist = (await session.execute(select(Tag.id, Tag.name).filter(Tag.name.in_(tags)))).mappings().all()
 
-            tag_ids = await session.execute(stmt_tag_ids)
-            tag_ids = tag_ids.mappings().all()
-            values = [{"tag_id": i['id'], "provider_id": provider_id}
-                      for i in tag_ids]
+            if tags_exist:
+                for tag_new in tags_new:
+                    for tag_exist in tags_exist:
+                        if tag_exist["name"] == tag_new["name"]:
+                            tag_new["id"] = tag_exist["id"]
+                            break
+
+            values = [{"name": i["name"]} for i in tags_new if i["id"] is None]
+            print(values)
+            tag_ids = []
+            if values:
+                stmt_tag_ids = (
+                    insert(Tag)
+                    .values(values)
+                    .returning(Tag.name, Tag.id)
+                )
+
+                tag_ids = await session.execute(stmt_tag_ids)
+                tag_ids = tag_ids.mappings().all()
+                values = tags_new + tag_ids
+                values = [i for i in values if i["id"] is not None]
+                values = [{"tag_id": i['id'], "provider_id": provider_id} for i in values]
+            else:
+                values = tags_new + tag_ids
+                values = [i for i in values if i["id"] is not None]
+                values = [{"tag_id": i['id'], "provider_id": provider_id} for i in values]
 
             stmt = (
                 insert(ProviderTag)

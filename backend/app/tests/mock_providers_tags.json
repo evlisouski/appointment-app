@@ -1,38 +1,38 @@
 [
     {
         "tag_id": 1,
-        "provider_id": 10
+        "provider_id": 1
     },
     {
         "tag_id": 2,
-        "provider_id": 10
+        "provider_id": 1
     },
     {
         "tag_id": 3,
-        "provider_id": 10
+        "provider_id": 2
     },
     {
         "tag_id": 4,
-        "provider_id": 11
+        "provider_id": 3
     },
     {
         "tag_id": 5,
-        "provider_id": 11
+        "provider_id": 4
     },
     {
         "tag_id": 6,
-        "provider_id": 11
+        "provider_id": 5
     },
     {
         "tag_id": 7,
-        "provider_id": 12
+        "provider_id": 6
     },
     {
         "tag_id": 8,
-        "provider_id": 12
+        "provider_id": 7
     },
     {
         "tag_id": 9,
-        "provider_id": 12
+        "provider_id": 8
     }
 ]

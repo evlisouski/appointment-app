@@ -1,0 +1,18 @@
+[
+    {        
+        "email": "test1@example.com",
+        "hashed_password": "$2b$12$wmloD3kPEbr6xgaeIaqhOuDJTELeiqS8TdPnFc2N2ldbZqdvP1.eu"        
+    },
+    {        
+        "email": "test2@example.com",
+        "hashed_password": "$2b$12$8Kann8Be4jVAVkyafTFNDOhhJdpQYE7h/tMOPyP0a1ndAYMRet1em"        
+    },
+    {        
+        "email": "test3@example.com",
+        "hashed_password": "$2b$12$3Oakt6iFO/2afvEWIFbVbOtA8KrRvyxyeq3Qd.TI8bQjF8OeF0LaG"        
+    },
+    {        
+        "email": "test4@example.com",
+        "hashed_password": "$2b$12$8UaF9B7.1RN8QbPXgz0BIemj.9Z7Gyfr1hKIZbRvPMTTQoPB9x2wC"        
+    }
+]

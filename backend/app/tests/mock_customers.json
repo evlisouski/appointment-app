@@ -1,6 +1,6 @@
 [
     {
-        
+        "id": 1,
         "name": "Eduard",
         "birthday": "1992-07-20",
         "registration_date": "2024-01-01",
@@ -11,7 +11,7 @@
         "score": 123
     },
     {
-        
+        "id": 2,
         "name": "Olga",
         "birthday": "1988-03-15",
         "registration_date": "2023-11-10",
@@ -22,7 +22,7 @@
         "score": 145
     },
     {
-        
+        "id": 3,
         "name": "Ivan",
         "birthday": "1995-09-05",
         "registration_date": "2024-02-01",
@@ -33,7 +33,7 @@
         "score": 78
     },
     {
-        
+        "id": 4,
         "name": "Natalia",
         "birthday": "1985-12-12",
         "registration_date": "2022-06-20",
@@ -42,60 +42,5 @@
         "location": "Vitebsk",
         "image_id": 4,
         "score": 200
-    },
-    {
-        
-        "name": "Andrei",
-        "birthday": "1990-04-30",
-        "registration_date": "2023-09-15",
-        "rating": 70,
-        "verified": false,
-        "location": "Hrodna",
-        "image_id": 5,
-        "score": 50
-    },
-    {
-        
-        "name": "Ekaterina",
-        "birthday": "1998-01-25",
-        "registration_date": "2024-01-15",
-        "rating": 120,
-        "verified": true,
-        "location": "Mogilev",
-        "image_id": 6,
-        "score": 180
-    },
-    {
-        
-        "name": "Dmitry",
-        "birthday": "1982-11-02",
-        "registration_date": "2023-05-05",
-        "rating": 85,
-        "verified": false,
-        "location": "Borisov",
-        "image_id": 7,
-        "score": 90
-    },
-    {
-        
-        "name": "Svetlana",
-        "birthday": "1975-06-18",
-        "registration_date": "2022-12-05",
-        "rating": 130,
-        "verified": true,
-        "location": "Pinsk",
-        "image_id": 8,
-        "score": 220
-    },
-    {
-        
-        "name": "Vladimir",
-        "birthday": "1989-08-22",
-        "registration_date": "2023-02-20",
-        "rating": 75,
-        "verified": false,
-        "location": "Molodechno",
-        "image_id": 9,
-        "score": 60
     }
 ]

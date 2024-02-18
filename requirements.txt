@@ -18,3 +18,5 @@ autoflake
 isort
 pyright
 httpx
+
+passlib
