@@ -32,8 +32,7 @@ class Provider(Base):
 
     tags = relationship("Tag", secondary="providers_tags", back_populates="providers")
     users = relationship("User", back_populates="providers")
-    appointment = relationship("Appointment", back_populates="providers")
-    
+    appointments = relationship("Appointment", back_populates="providers")
 
     def __str__(self):
         return f"Provider {self.name}"

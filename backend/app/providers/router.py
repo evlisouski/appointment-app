@@ -5,7 +5,7 @@ from app.providers.dao import ProviderDAO
 from app.providers.schemas import SNewProvider, SProvider
 from app.users.models import User
 from app.users.dependencies import get_current_user
-from app.exceptions import UserAlreadyExistsException
+from app.exceptions import UserIsNotPresentException
 
 
 router = APIRouter(
@@ -30,6 +30,13 @@ async def add_provider(provider: SNewProvider, current_user: User = Depends(get_
 @router.get("/all")
 async def get_providers() -> list[SProvider]:
     return await ProviderDAO.get_providers()
+
+@router.get("/user_providers")
+async def get_user_providers(current_user: User = Depends(get_current_user)):
+    if not current_user:
+        raise UserIsNotPresentException
+    user_id = current_user.id
+    return await ProviderDAO.get_providers(user_id=user_id)
 
 
 @router.get("/{id}")
