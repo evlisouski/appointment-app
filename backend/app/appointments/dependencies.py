@@ -30,7 +30,7 @@ async def get_current_provider(token: str = Depends(get_token)):
     user_id: str = payload.get("sub")
     if not user_id:
         raise UserIsNotPresentException
-    providers = await ProviderDAO.find_all(user_id=int(user_id))    
+    providers = await ProviderDAO.find_all(user_id=int(user_id))
     if not providers:
         raise UserIsNotPresentException
 
