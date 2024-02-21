@@ -1,0 +1,66 @@
+[
+    {        
+        "provider_id": 1,
+        "customer_id": 1,
+        "offer": "Мужская стрижка",
+        "datetime_from": "2024-02-19 08:00:00.415+03",
+        "datetime_to": "2024-02-19 08:15:00.415+03",
+        "price": 40
+    },
+    {        
+        "provider_id": 1,
+        "customer_id": 2,
+        "offer": "Женская стрижка",
+        "datetime_from": "2024-02-19 08:00:00.415+03",
+        "datetime_to": "2024-02-19 08:15:00.415+03",
+        "price": 50
+    },
+    {        
+        "provider_id": 2,
+        "customer_id": 3,
+        "offer": "Химчистка пуховика",
+        "datetime_from": "2024-03-19 10:00:00.415+03",
+        "datetime_to": "2024-03-21 10:00:00.415+03",
+        "price": 150
+    },
+    {        
+        "provider_id": 2,
+        "customer_id": 4,
+        "offer": "Химчистка пуховика",
+        "datetime_from": "2024-03-19 10:00:00.415+03",
+        "datetime_to": "2024-03-20 10:00:00.415+03",
+        "price": 150
+    },
+    {        
+        "provider_id": 3,
+        "customer_id": 1,
+        "offer": "Ремонт ноутбука",
+        "datetime_from": "2024-04-25 13:00:00.415+03",
+        "datetime_to": "2024-04-30 13:00:00.415+03",
+        "price": 200
+    },
+    {        
+        "provider_id": 3,
+        "customer_id": 4,
+        "offer": "Замена защитного стекла смартфона",
+        "datetime_from": "2024-04-25 13:00:00.415+03",
+        "datetime_to": "2024-04-25 13:10:00.415+03",
+        "price": 20
+    },
+    {        
+        "provider_id": 4,
+        "customer_id": 1,
+        "offer": "Изготовление картины в стиле pixel craft",
+        "datetime_from": "2024-05-01 08:00:00.415+03",
+        "datetime_to": "2024-05-10 08:00:00.415+03",
+        "price": 150
+    },
+    {
+        "provider_id": 4,
+        "customer_id": 2,
+        "offer": "Изготовление картины в стиле pixel craft",
+        "datetime_from": "2024-05-01 08:00:00.415+03",
+        "datetime_to": "2024-05-10 08:00:00.415+03",
+        "price": 150
+    }
+]

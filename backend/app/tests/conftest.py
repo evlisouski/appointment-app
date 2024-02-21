@@ -9,6 +9,7 @@ from app.database import Base, async_session_maker, engine
 from app.customers.models import Customer
 from app.users.models import User
 from app.providers.models import Provider, ProviderTag, Tag
+from app.appointments.models import Appointment
 
 from fastapi.testclient import TestClient
 from httpx import AsyncClient
@@ -23,7 +24,7 @@ async def prepare_database():
         await conn.run_sync(Base.metadata.create_all)
 
     def open_mock_json(model: str):
-        with open(f"app/tests/mock_{model}.json", "r") as file:
+        with open(f"app/tests/mock_{model}.json", encoding="utf-8") as file:
             return json.load(file)
 
     users = open_mock_json("users")
@@ -31,7 +32,8 @@ async def prepare_database():
     providers = open_mock_json("providers")
     tags = open_mock_json("tags")
     providers_tags = open_mock_json("providers_tags")
-
+    appointments = open_mock_json("appointments")
+    
     for customer in customers:
         customer["birthday"] = datetime.strptime(customer["birthday"], "%Y-%m-%d")
         customer["registration_date"] = datetime.strptime(customer["registration_date"], "%Y-%m-%d")
@@ -39,19 +41,25 @@ async def prepare_database():
     for provider in providers:
         provider["foundation_date"] = datetime.strptime(provider["foundation_date"], "%Y-%m-%d")
         provider["registration_date"] = datetime.strptime(provider["registration_date"], "%Y-%m-%d")
-
+            
+    for appointment in appointments:
+        appointment["datetime_from"] = datetime.fromisoformat(appointment["datetime_from"])
+        appointment["datetime_to"] = datetime.fromisoformat(appointment["datetime_to"])
+    
     async with async_session_maker() as session:
         add_users = insert(User).values(users)
         add_customers = insert(Customer).values(customers)
         add_providers = insert(Provider).values(providers)
         add_tags = insert(Tag).values(tags)
         add_providers_tags = insert(ProviderTag).values(providers_tags)
+        add_appointments = insert(Appointment).values(appointments)
 
         await session.execute(add_users)
         await session.execute(add_customers)
         await session.execute(add_providers)
         await session.execute(add_tags)
         await session.execute(add_providers_tags)
+        await session.execute(add_appointments)
 
         await session.commit()
 
