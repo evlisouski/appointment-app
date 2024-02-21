@@ -82,17 +82,17 @@ class ProviderDAO(BaseDAO):
             return result
 
     @classmethod
-    async def add_provider(cls,
-                           user_id,
-                           name,
-                           foundation_date,
-                           registration_date,
-                           rating,
-                           verified,
-                           location,
-                           image_id,
-                           tags
-                           ):
+    async def add_provider(cls, **values):        
+        user_id = values["user_id"]
+        name = values["name"]
+        foundation_date = values["foundation_date"]
+        registration_date = values["registration_date"]
+        rating = values["rating"]
+        verified = values["verified"]
+        location = values["location"]
+        image_id = values["image_id"]
+        tags = values["tags"]
+
         '''
         DO $$
         DECLARE new_user_id integer;
@@ -163,11 +163,11 @@ class ProviderDAO(BaseDAO):
             stmt = (
                 insert(ProviderTag)
                 .values(values)
-                .returning(ProviderTag.provider_id, ProviderTag.tag_id)
+                .returning(ProviderTag.provider_id)
             )
             result = await session.execute(stmt)
             await session.commit()
-            return result.mappings()
+            return result.mappings().all()
 
     @classmethod
     async def del_provider(cls, provider_id: int):

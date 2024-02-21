@@ -17,7 +17,7 @@ router_auth = APIRouter(
 
 router_users = APIRouter(
     prefix="/users",
-    tags=["Пользователи"],
+    tags=["Users"],
 )
 
 @router_auth.post("/register", status_code=201)

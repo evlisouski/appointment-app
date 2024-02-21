@@ -15,17 +15,9 @@ router = APIRouter(
 
 @router.post("/add")
 async def add_provider(provider: SNewProvider, current_user: User = Depends(get_current_user)):
-    return await ProviderDAO.add_provider(
-        user_id=current_user.id,
-        name=provider.name,
-        foundation_date=provider.foundation_date,
-        registration_date=provider.registration_date,
-        rating=provider.rating,
-        verified=provider.verified,
-        location=provider.location,
-        image_id=provider.image_id,
-        tags=provider.tags,
-    )
+    values = {k: v for k, v in (provider.model_dump()).items() if v is not None}
+    values["user_id"] = current_user.id
+    return await ProviderDAO.add_provider(**values)
 
 @router.get("/all")
 async def get_providers() -> list[SProvider]:

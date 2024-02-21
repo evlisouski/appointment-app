@@ -13,6 +13,9 @@ class UserAlreadyExistsException(BookingException):
     status_code = status.HTTP_409_CONFLICT
     detail = "Пользователь уже существует"
 
+class AccessDenied(BookingException):
+    status_code = status.HTTP_403_FORBIDDEN
+    detail = "У данного пользователя нет прав доступа"
 
 class IncorrectEmailOrPasswordException(BookingException):
     status_code = status.HTTP_401_UNAUTHORIZED

@@ -1,32 +1,14 @@
-
-from datetime import date
-
-from sqlalchemy import and_, func, insert, or_, select
-
-
+from sqlalchemy import insert
 from app.customers.models import Customer
 from app.dao.base import BaseDAO
 from app.database import async_session_maker
-
 from app.logger import logger
-
 
 class CustomerDAO(BaseDAO):
     model = Customer
 
     @classmethod
-    async def add_customer(
-        cls,
-        id: id,
-        name: str,
-        birthday: date,
-        registration_date: date,
-        rating: int,
-        verified: bool,
-        location: str,
-        image_id: int,
-        score: int
-    ):
+    async def add_customer(cls, **values):
         '''
         INSERT INTO customers
         ("name", "birthday", "registration_date", "rating", "verified",
@@ -38,15 +20,7 @@ class CustomerDAO(BaseDAO):
         async with async_session_maker() as session:
             stmt = (
                 insert(Customer)
-                .values(id=id,
-                        name=name,
-                        birthday=birthday,
-                        registration_date=registration_date,
-                        rating=rating,
-                        verified=verified,
-                        location=location,
-                        image_id=image_id,
-                        score=score)
+                .values(values)
                 .returning(Customer.id,
                            Customer.name)
             )

@@ -1,13 +1,11 @@
-from sqlalchemy import JSON, Boolean, Column, Date, ForeignKey, Integer, String, SmallInteger, true
-from sqlalchemy.orm import relationship, Mapped, mapped_column
-
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String, SmallInteger
+from sqlalchemy.orm import relationship, mapped_column
 from app.database import Base
 
 
 class Customer(Base):
     __tablename__ = "customers"
-
-    # id = Column(Integer, primary_key=True, autoincrement=True)
+    
     id = mapped_column(Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True, )
     name = Column(String(length=256), nullable=False)
     birthday = Column(Date, nullable=True)
