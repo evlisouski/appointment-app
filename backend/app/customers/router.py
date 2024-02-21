@@ -20,9 +20,9 @@ async def get_customers() -> list[SCustomer]:
 async def get_customer_by_id(id: int) -> SCustomer | None:
     return await CustomerDAO.find_one_or_none(id=id)
 
-
 @router.post("/add")
-async def add_customer(customer: SNewCustomer, current_user: User = Depends(get_current_user)) -> SNewCustomerReturn:
+async def add_customer(customer: SNewCustomer,
+                       current_user: User = Depends(get_current_user)) -> SNewCustomerReturn:
     is_user = await CustomerDAO.find_one_or_none(id=current_user.id)
     if is_user:
         raise UserAlreadyExistsException    
@@ -31,5 +31,8 @@ async def add_customer(customer: SNewCustomer, current_user: User = Depends(get_
     return await CustomerDAO.add_customer(**values)
 
 @router.delete("/{customer_id}")
-async def remove_booking(customer_id: int):
+async def remove_booking(customer_id: int,
+                         current_user: User = Depends(get_current_user)):
+    if await CustomerDAO.find_one_or_none(id=current_user.id):
+        raise AccessDenied
     await CustomerDAO.delete(id=customer_id)
