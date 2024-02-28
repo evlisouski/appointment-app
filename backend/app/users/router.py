@@ -3,12 +3,13 @@ from fastapi import APIRouter, Depends, Response
 from app.exceptions import (
     CannotAddDataToDatabase,
     UserAlreadyExistsException,
+    UserIsNotPresentException,
 )
 from app.users.auth import authenticate_user, create_access_token, get_password_hash
 from app.users.dao import UserDAO
 from app.users.dependencies import get_current_user
 from app.users.models import User
-from app.users.schemas import SUserAuth
+from app.users.schemas import SUserAuth, SUserUpdate
 
 router_auth = APIRouter(
     prefix="/auth",
@@ -44,6 +45,26 @@ async def logout_user(response: Response):
     response.delete_cookie("booking_access_token")
 
 
-@router_users.get("/me")
-async def read_users_me(current_user: User = Depends(get_current_user)):
+@router_users.get("/about_me")
+async def get_info_about_current_user(current_user: User = Depends(get_current_user)):
     return current_user
+
+@router_users.patch("/edit_user_data")
+async def edit_user_data(user: SUserUpdate, current_user: User = Depends(get_current_user)):
+    if not current_user:
+        raise UserIsNotPresentException    
+    values = {k: v for k, v in (user.model_dump()).items() if v is not None}
+    password = values.get("password", None)
+    email = values.get("email", None)
+    if email:
+        email_exist = UserDAO.find_one_or_none(email=email)
+        if email_exist:
+            raise UserAlreadyExistsException       
+    if password:
+        hashed_password = get_password_hash(user.password)
+        del values["password"]
+        values["hashed_password"] = hashed_password
+    await UserDAO.update(**values, id=current_user["id"])
+    return "User data has been updated"
+
+

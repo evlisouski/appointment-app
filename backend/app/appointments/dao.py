@@ -28,3 +28,10 @@ class AppointmentDAO(BaseDAO):
             query = select(cls.model.__table__.columns).filter(cls.model.provider_id.in_(user_providers))
             result = await session.execute(query)
             return result.mappings().all()
+        
+    @classmethod
+    async def find_all_free(cls):
+        async with async_session_maker() as session:
+            query = select(cls.model.__table__.columns).filter(cls.model.customer_id == None)
+            result = await session.execute(query)
+            return result.mappings().all()

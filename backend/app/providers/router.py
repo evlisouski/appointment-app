@@ -13,12 +13,6 @@ router = APIRouter(
     tags=["Providers"],
 )
 
-@router.post("/add")
-async def add_provider(provider: SNewProvider, current_user: User = Depends(get_current_user)):
-    values = {k: v for k, v in (provider.model_dump()).items() if v is not None}
-    values["user_id"] = current_user.id
-    return await ProviderDAO.add_provider(**values)
-
 @router.get("/all")
 async def get_providers() -> list[SProvider]:
     return await ProviderDAO.get_providers()
@@ -28,13 +22,19 @@ async def get_user_providers(current_user: User = Depends(get_current_user)):
     if not current_user:
         raise UserIsNotPresentException
     user_id = current_user.id
+    print(user_id)
     return await ProviderDAO.get_providers(user_id=user_id)
 
 
-@router.get("/{id}")
-async def get_provider_by_id(id: int) -> SProvider:
-    return await ProviderDAO.get_provider_by_id(provider_id=id)
+@router.get("/{provider_id}")
+async def get_provider_by_id(provider_id: int) -> SProvider:
+    return await ProviderDAO.get_provider_by_id(provider_id=provider_id)
 
+@router.post("/add")
+async def add_provider(provider: SNewProvider, current_user: User = Depends(get_current_user)):
+    values = {k: v for k, v in (provider.model_dump()).items() if v is not None}
+    values["user_id"] = current_user.id
+    return await ProviderDAO.add_provider(**values)
 
 @router.delete("/{provider_id}")
 async def del_provider(provider_id: int):
