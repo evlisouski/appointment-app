@@ -6,6 +6,7 @@ from app.providers.schemas import SNewProvider, SProvider
 from app.users.models import User
 from app.users.dependencies import get_current_user
 from app.exceptions import UserIsNotPresentException
+from fastapi_cache.decorator import cache
 
 
 router = APIRouter(
@@ -14,6 +15,7 @@ router = APIRouter(
 )
 
 @router.get("/all")
+@cache(expire=3)
 async def get_providers() -> list[SProvider]:
     return await ProviderDAO.get_providers()
 

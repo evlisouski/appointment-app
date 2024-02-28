@@ -1,3 +1,4 @@
+import asyncio
 from typing import Optional
 from fastapi import APIRouter, Depends
 from app.appointments.dao import AppointmentDAO
@@ -6,21 +7,24 @@ from app.appointments.dependencies import get_current_provider
 from app.appointments.models import Appointment
 from app.exceptions import AccessDenied, UserIsNotPresentException
 from app.users.dependencies import get_current_user 
+from fastapi_cache.decorator import cache
 
 router = APIRouter(
     prefix="/appointments",
     tags=["Appointments"],
 )
 
+
 @router.get("/all")
-async def get_appointments(user_providers: Appointment = Depends(get_current_provider)):
+@cache(expire=3)
+async def get_appointments(user_providers: Appointment = Depends(get_current_provider)):    
     if not user_providers:
         raise AccessDenied
     provider_ids = [i["id"] for i in user_providers]
     return await AppointmentDAO.find_all(provider_ids)
 
-@router.get("/free_appointments")
-async def get_appointments(user_providers: Appointment = Depends(get_current_provider)):
+@router.get("/available_appointments")
+async def get_available_appointments(user_providers: Appointment = Depends(get_current_provider)):
     if not user_providers:
         raise AccessDenied    
     return await AppointmentDAO.find_all_free()
