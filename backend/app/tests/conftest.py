@@ -1,3 +1,7 @@
+import sys
+from os.path import abspath, dirname
+sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
+
 import asyncio
 from datetime import datetime
 import json
@@ -33,7 +37,7 @@ async def prepare_database():
     tags = open_mock_json("tags")
     providers_tags = open_mock_json("providers_tags")
     appointments = open_mock_json("appointments")
-    
+
     for customer in customers:
         customer["birthday"] = datetime.strptime(customer["birthday"], "%Y-%m-%d")
         customer["registration_date"] = datetime.strptime(customer["registration_date"], "%Y-%m-%d")
@@ -41,11 +45,11 @@ async def prepare_database():
     for provider in providers:
         provider["foundation_date"] = datetime.strptime(provider["foundation_date"], "%Y-%m-%d")
         provider["registration_date"] = datetime.strptime(provider["registration_date"], "%Y-%m-%d")
-            
+
     for appointment in appointments:
         appointment["datetime_from"] = datetime.fromisoformat(appointment["datetime_from"])
         appointment["datetime_to"] = datetime.fromisoformat(appointment["datetime_to"])
-    
+
     async with async_session_maker() as session:
         add_users = insert(User).values(users)
         add_customers = insert(Customer).values(customers)
@@ -65,7 +69,8 @@ async def prepare_database():
 
 # Взято из документации к pytest-asyncio
 # Создаем новый event loop для прогона тестов
-@pytest.fixture(scope="session")
+# @pytest.fixture(scope="session")
+@pytest.mark.asyncio(scope="session")
 def event_loop(request):
     """Create an instance of the default event loop for each test case."""
     loop = asyncio.get_event_loop_policy().new_event_loop()
@@ -77,4 +82,15 @@ def event_loop(request):
 async def ac():
     "Асинхронный клиент для тестирования эндпоинтов"
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        yield ac
+
+@pytest.fixture(scope="session")
+async def authenticated_ac():
+    "Асинхронный аутентифицированный клиент для тестирования эндпоинтов"
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        await ac.post("/auth/login", json={
+            "email": "test1@example.com",
+            "password": "string",
+        })
+        assert ac.cookies["booking_access_token"]
         yield ac

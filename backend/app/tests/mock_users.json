@@ -14,5 +14,9 @@
     {        
         "email": "test4@example.com",
         "hashed_password": "$2b$12$8UaF9B7.1RN8QbPXgz0BIemj.9Z7Gyfr1hKIZbRvPMTTQoPB9x2wC"        
+    },
+    {        
+        "email": "test5@example.com",
+        "hashed_password": "$2b$12$GhzheMQUTc/gWIshIB/CW.9mc2rmFY1UqFftxtSXei7wFipDI/d4G"        
     }
 ]
