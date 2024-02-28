@@ -16,4 +16,4 @@ class User(Base):
     providers = relationship("Provider", back_populates="users")
 
     def __str__(self):
-        return f"Пользователь {self.email}"
+        return f"{self.email}"

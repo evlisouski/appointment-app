@@ -14,7 +14,7 @@ class Tag(Base):
         "Provider", secondary="providers_tags", back_populates="tags")
 
     def __str__(self):
-        return f"Tag {self.name}"
+        return f"{self.name}"
 
 
 class Provider(Base):
