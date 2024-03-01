@@ -9,6 +9,12 @@
             "database": "postgres",
             "username": "postgres"
         }
-    ]
+    ],
+    "python.testing.cwd": "backend",
+    "python.testing.pytestArgs": [
+        "backend"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 
 }
