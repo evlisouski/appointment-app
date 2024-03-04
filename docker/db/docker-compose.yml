@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  appointments-postgres:
+    image: postgres:latest
+    container_name: appointments-postgres
+    hostname: appointments-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: djkgljdfgkler28gsdg8
+      POSTGRES_DB: appointments
+    ports:
+      - '5434:5432'
+    networks:
+      - appointments
+    volumes:
+      - './data/appointments/postgres:/var/lib/postgresql/data'
+networks:
+  appointments:
+    driver: bridge
