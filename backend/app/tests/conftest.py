@@ -1,7 +1,9 @@
 import sys
 from os.path import abspath, dirname
-sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
+import dateutil
+sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
+from dateutil import parser
 import asyncio
 from datetime import datetime
 import json
@@ -47,8 +49,8 @@ async def prepare_database():
         provider["registration_date"] = datetime.strptime(provider["registration_date"], "%Y-%m-%d")
 
     for appointment in appointments:
-        appointment["datetime_from"] = datetime.fromisoformat(appointment["datetime_from"])
-        appointment["datetime_to"] = datetime.fromisoformat(appointment["datetime_to"])
+        appointment["datetime_from"] = parser.parse(appointment["datetime_from"])
+        appointment["datetime_to"] = parser.parse(appointment["datetime_to"])
 
     async with async_session_maker() as session:
         add_users = insert(User).values(users)

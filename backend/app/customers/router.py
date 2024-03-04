@@ -15,7 +15,7 @@ router = APIRouter(
 
 @router.get("/all")
 @cache(expire=3)
-async def get_customers() -> list[SCustomer]:
+async def get_customers() -> list[SCustomer]:    
     return await CustomerDAO.find_all()
 
 @router.get("/customer{id}")

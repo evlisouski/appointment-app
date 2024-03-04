@@ -23,3 +23,6 @@ passlib
 
 sqladmin[full]
 
+python-json-logger
+
+--upgrade 'sentry-sdk[fastapi]'

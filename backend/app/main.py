@@ -1,7 +1,11 @@
+import time
 from uu import decode
 from black import Encoding
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+import sentry_sdk
 from sqladmin import Admin
+
+from app.logger import logger
 
 from app.providers.router import router as router_providers
 from app.customers.router import router as router_customers
@@ -20,6 +24,13 @@ from fastapi_cache.decorator import cache
 
 from redis import asyncio as aioredis
 
+
+
+sentry_sdk.init(
+    dsn="http://cf536af1015243ca8133021d5bee3606@127.0.0.1:9000/4"
+    # enable_tracing=True,
+)
+
 app = FastAPI()
 
 app.include_router(router_auth)
@@ -27,7 +38,6 @@ app.include_router(router_users)
 app.include_router(router_providers)
 app.include_router(router_customers)
 app.include_router(router_appointments)
-
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
@@ -41,3 +51,15 @@ admin.add_view(AppointmentAdmin)
 async def startup():
     redis = aioredis.from_url("redis://localhost:6379", encoding="utf8", decode_responses=True)
     FastAPICache.init(RedisBackend(redis), prefix="cache")
+
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    # При подключении Prometheus + Grafana подобный лог не требуется
+    logger.info("Request handling time", extra={
+        "process_time": round(process_time, 4)
+    })
+    return response
