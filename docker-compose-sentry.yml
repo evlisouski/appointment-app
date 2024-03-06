@@ -33,7 +33,7 @@ services:
     ports:
       - '9000:9000'
     env_file:
-      - .env
+      - .env-non-dev
     depends_on:
       - sentry-redis
       - sentry-postgres
@@ -48,7 +48,7 @@ services:
     hostname: sentry-cron
     restart: always
     env_file:
-      - .env
+      - .env-non-dev
     depends_on:
       - sentry-redis
       - sentry-postgres
@@ -64,7 +64,7 @@ services:
     hostname: sentry-worker
     restart: always
     env_file:
-      - .env
+      - .env-non-dev
     depends_on:
       - sentry-redis
       - sentry-postgres
