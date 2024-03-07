@@ -9,7 +9,7 @@ services:
     networks:
       - sentry
     volumes:
-      - './data/sentry/redis/data:/data'
+      - './docker/data/sentry/redis/data:/data'
   
   sentry-postgres:
     image: postgres:latest
@@ -23,7 +23,7 @@ services:
     networks:
       - sentry
     volumes:
-      - './data/sentry/postgres:/var/lib/postgresql/data'
+      - './docker/data/sentry/postgres:/var/lib/postgresql/data'
 
   sentry-base:
     image: sentry:latest
@@ -40,7 +40,7 @@ services:
     networks:
       - sentry
     volumes:
-      - './data/sentry/sentry:/var/lib/sentry/files'
+      - './docker/data/sentry/sentry:/var/lib/sentry/files'
 
   sentry-cron:
     image: sentry:latest
@@ -56,7 +56,7 @@ services:
     networks:
       - sentry
     volumes:
-      - './data/sentry/sentry:/var/lib/sentry/files'
+      - './docker/data/sentry/sentry:/var/lib/sentry/files'
 
   sentry-worker:
     image: sentry:latest
@@ -72,7 +72,7 @@ services:
     networks:
       - sentry
     volumes:
-      - './data/sentry/sentry:/var/lib/sentry/files'
+      - './docker/data/sentry/sentry:/var/lib/sentry/files'
 
 networks:
   sentry:
