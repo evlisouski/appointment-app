@@ -28,7 +28,7 @@ services:
   sentry-base:
     image: sentry:latest
     container_name: sentry-base
-    hostname: sentry-base
+    hostname: sentry-bases
     restart: always
     ports:
       - '9000:9000'

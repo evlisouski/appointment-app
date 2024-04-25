@@ -3,7 +3,6 @@ services:
   db:
     image: postgres:latest
     container_name: booking_db
-    # hostname: appointments-postgres
     restart: always
     env_file:
       - .env-non-dev
@@ -20,6 +19,7 @@ services:
     image: booking_app
     build:
       context: .
+      network: host
     container_name: booking_app
     env_file:
       - .env-non-dev
@@ -27,29 +27,26 @@ services:
       - db
       - redis    
     command: ["/booking/docker/scripts/app.sh"]
-    # command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
     ports:
       - 8000:8000
 
   celery:
-    image: booking_celery
+    image: booking_app
     build:
       context: . 
     container_name: booking_celery    
     command: ["/booking/docker/scripts/celery.sh", "celery"]
-    # command: sh -c "celery --app=app.tasks.celery:celery worker -l INFO"
     env_file:
       - .env-non-dev
     depends_on:
       - redis
 
   flower:
-    image: booking_flower
+    image: booking_app
     build:
       context: . 
     container_name: booking_flower    
     command: ["/booking/docker/scripts/celery.sh", "flower"]
-    # command: sh -c "celery --app=app.tasks.celery:celery flower"
     env_file:
       - .env-non-dev
     depends_on:
@@ -58,4 +55,5 @@ services:
       - 5555:5555
       
 volumes:
-  postgresdata:  
+  postgresdata:
+
